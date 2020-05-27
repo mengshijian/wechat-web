@@ -1,0 +1,125 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.wechat.dao.WechatCustomDao">
+
+  <resultMap id="wechatCustomMap" type="com.wechat.entity.WechatCustom">
+    <result column="custom_id" property="customId" jdbcType="VARCHAR"/>
+    <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+    <result column="country" property="country" jdbcType="VARCHAR"/>
+    <result column="province" property="province" jdbcType="VARCHAR"/>
+    <result column="city" property="city" jdbcType="VARCHAR"/>
+    <result column="head_img_url" property="headImgUrl" jdbcType="VARCHAR"/>
+    <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <select id="getByOpenId" resultMap="wechatCustomMap" parameterType="java.lang.String">
+    select
+      open_id,
+      custom_id,
+      nick_name,
+      country,
+      province,
+      city,
+      head_img_url
+    from tb_custom_wx
+      where open_id=#{openId}
+  </select>
+
+  <insert id="insert" parameterType="com.wechat.entity.WechatCustom">
+    insert into tb_custom_wx
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customId != null and customId!=''">
+        custom_id,
+      </if>
+      <if test="openId != null and openId!=''">
+        open_id,
+      </if>
+      <if test="nickName != null and nickName!=''">
+        nick_name,
+      </if>
+      <if test="country != null and country!=''">
+        country,
+      </if>
+      <if test="province != null and province!=''">
+        province,
+      </if>
+      <if test="city!=null and city!=''">
+        city,
+      </if>
+      <if test="headImgUrl!=null and headImgUrl!=''">
+        head_img_url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customId != null and customId!=''">
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null and openId!=''">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null and nickName!=''">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null and country!=''">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null and province!=''">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city!=null and city!=''">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl!=null and headImgUrl!=''">
+        #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByOpenId" parameterType="com.wechat.entity.WechatCustom">
+    update tb_custom_wx
+    <set>
+      <if test="nickName != null and nickName!=''">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null and country!=''">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province!=null and province!=''">
+        province=#{province},
+      </if>
+      <if test="city!=null and city!=''">
+        city=#{city},
+      </if>
+      <if test="headImgUrl!=null and headImgUrl!=''">
+        head_img_url = #{headImgUrl},
+      </if>
+      <if test="isCertified!= null">
+        isCertified=#{isCertified}
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_Time = #{lastUpdateTime},
+      </if>
+    </set>
+    <where>
+      <if test="openId != null">
+        and open_id = #{openId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+
+</mapper>

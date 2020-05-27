@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <appenders>
+    <Console ignoreExceptions="false" name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %M %-5level %logger{36} - %msg%n"/>
+    </Console>
+  </appenders>
+
+  <Loggers>
+    <logger level="INFO" name="org.apache.zookeeper"/>
+    <logger level="INFO" name="org.springframework"/>
+    <logger level="INFO" name="org.apache.http"/>
+    <logger level="INFO" name="org.apache.dubbo"/>
+    <logger level="ERROR" name="org.apache.dubbo.registry.multicast.MulticastRegistry"/>
+
+    <root level="all">
+      <appender-ref ref="Console"/>
+    </root>
+  </Loggers>
+</Configuration>

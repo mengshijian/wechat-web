@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <properties>
+    <!-- 日志路径 -->
+    <property name="LOG_HOME">${sys:app.log.home}</property>
+  </properties>
+
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT" ignoreExceptions="false">
+      <PatternLayout
+        pattern="%d{HH:mm:ss.SSS} [%t] %M %-5level %logger{36} - %msg%n"/>
+    </Console>
+    <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/resim-bos-app-mifi-web-info.log"
+      filePattern="${LOG_HOME}/${date:yyyy-MM}/resim-bos-app-mifi-web-info-%d{MM-dd-yyyy}-%i.log"
+      ignoreExceptions="false">
+      <Filters>
+        <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+      </Policies>
+
+      <!--归档日志保留7天，如日志量超过100M或生成的文件数超过5个，则超出部分清除，保留最新生成的日志文件-->
+      <DefaultRolloverStrategy max="10">
+        <Delete basePath="${LOG_HOME}" maxDepth="2">
+          <IfFileName glob="*/resim-bos-app-mifi-web-info-*.log">
+            <IfLastModified age="7d">
+              <IfAny>
+                <IfAccumulatedFileSize exceeds="100 MB"/>
+                <IfAccumulatedFileCount exceeds="5"/>
+              </IfAny>
+            </IfLastModified>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <RollingFile name="RollingFileWarn" fileName="${LOG_HOME}/resim-bos-app-mifi-web-warn.log"
+      filePattern="${LOG_HOME}/${date:yyyy-MM}/resim-bos-app-mifi-web-warn-%d{yyyy-MM-dd}-%i.log">
+      <Filters>
+        <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+      </Policies>
+
+      <!--归档日志保留7天，如日志量超过100M或生成的文件数超过5个，则超出部分清除，保留最新生成的日志文件-->
+      <DefaultRolloverStrategy max="10">
+        <Delete basePath="${LOG_HOME}" maxDepth="2">
+          <IfFileName glob="*/resim-bos-app-mifi-web-warn-*.log">
+            <IfLastModified age="7d">
+              <IfAny>
+                <IfAccumulatedFileSize exceeds="100 MB"/>
+                <IfAccumulatedFileCount exceeds="5"/>
+              </IfAny>
+            </IfLastModified>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <RollingFile name="RollingFileDebug" fileName="${LOG_HOME}/resim-bos-app-mifi-web-debug.log"
+      filePattern="${LOG_HOME}/${date:yyyy-MM}/resim-bos-app-mifi-web-debug-%d{yyyy-MM-dd}-%i.log">
+      <Filters>
+        <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+      </Policies>
+
+      <!--归档日志保留7天，如日志量超过100M或生成的文件数超过5个，则超出部分清除，保留最新生成的日志文件-->
+      <DefaultRolloverStrategy max="10">
+        <Delete basePath="${LOG_HOME}" maxDepth="2">
+          <IfFileName glob="*/resim-bos-app-mifi-web-debug-*.log">
+            <IfLastModified age="7d">
+              <IfAny>
+                <IfAccumulatedFileSize exceeds="100 MB"/>
+                <IfAccumulatedFileCount exceeds="5"/>
+              </IfAny>
+            </IfLastModified>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <RollingFile name="RollingFileError" fileName="${LOG_HOME}/resim-bos-app-mifi-web-error.log"
+      filePattern="${LOG_HOME}/${date:yyyy-MM}/resim-bos-app-mifi-web-error-%d{yyyy-MM-dd}-%i.log">
+      <ThresholdFilter level="ERROR"/>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+        <CronTriggeringPolicy schedule="0 0 0 * * ?"/>
+      </Policies>
+
+      <!--归档日志保留7天，如日志量超过100M或生成的文件数超过5个，则超出部分清除，保留最新生成的日志文件-->
+      <DefaultRolloverStrategy max="10">
+        <Delete basePath="${LOG_HOME}" maxDepth="2">
+          <IfFileName glob="*/resim-bos-app-mifi-web-error-*.log">
+            <IfLastModified age="7d">
+              <IfAny>
+                <IfAccumulatedFileSize exceeds="100 MB"/>
+                <IfAccumulatedFileCount exceeds="5"/>
+              </IfAny>
+            </IfLastModified>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RocketMQ name="webOperateLogAppender" producerGroup="bosAppWebLogGroup"
+      nameServerAddress="192.168.200.67:9876;192.168.200.66:9876;192.168.200.60:9876;192.168.200.61:9876;"
+      topic="${sys:TOPIC_OperaterLog}" tag="${sys:TAG_WebOperateLog}">
+      <Filters>
+        <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+      <JsonLayout>
+        <KeyValuePair key="serverIP" value="${sys:serverIP}"/>
+        <KeyValuePair key="serverName" value="${sys:serverName}"/>
+        <KeyValuePair key="systemNo" value="142"/>
+        <KeyValuePair key="system" value="resim-bos-app-mifi-web"/>
+      </JsonLayout>
+    </RocketMQ>
+
+    <RocketMQ name="RocketMQResimLoggerAppender" producerGroup="LogProducerGroup"
+      nameServerAddress="192.168.200.67:9876;192.168.200.66:9876;192.168.200.60:9876;192.168.200.61:9876;"
+      topic="ResimLog" tag="resim-bos-app-mifi-web">
+      <JsonLayout>
+        <KeyValuePair key="serverIP" value="${sys:serverIP}"/>
+        <KeyValuePair key="serverName" value="${sys:serverName}"/>
+        <KeyValuePair key="systemNo" value="142"/>
+        <KeyValuePair key="system" value="resim-bos-app-mifi-web"/>
+      </JsonLayout>
+    </RocketMQ>
+
+  </appenders>
+
+  <Loggers>
+    <Logger name="com.cootf.resim.web.aspect.ControllerInterceptor"
+      level="INFO">
+      <AppenderRef ref="webOperateLogAppender"/>
+    </Logger>
+
+    <Logger name="com.cootf.resim.bos.app.mifi.web" level="INFO">
+      <AppenderRef ref="RocketMQResimLoggerAppender"/>
+    </Logger>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.apache.zookeeper" level="WARN"/>
+    <logger name="org.apache.curator" level="INFO"/>
+    <logger name="io.netty" level="INFO"/>
+    <logger name="org.apache.dubbo" level="WARN"/>
+    <logger name="RocketmqRemoting" level="WARN"/>
+    <logger name="RocketmqClient" level="WARN"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <root level="all">
+      <appender-ref ref="Console"/>
+      <appender-ref ref="RollingFileInfo"/>
+      <appender-ref ref="RollingFileWarn"/>
+      <appender-ref ref="RollingFileError"/>
+      <appender-ref ref="RollingFileDebug"/>
+    </root>
+  </Loggers>
+</Configuration>

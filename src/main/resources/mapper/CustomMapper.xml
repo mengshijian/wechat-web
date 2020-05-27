@@ -1,0 +1,146 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.wechat.dao.CustomDao">
+
+  <resultMap id="customMap" type="com.wechat.entity.Custom">
+    <result column="id" property="id" jdbcType="INTEGER"/>
+    <result column="custom_id" property="customId" jdbcType="VARCHAR"/>
+    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR"/>
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+    <result column="is_certified" property="isCertified" jdbcType="INTEGER"/>
+    <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="INTEGER"/>
+    <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <sql id="Base_Column">
+    id,custom_id,user_name, login_pwd,phone_number, is_certified, open_id,
+    status,create_time,last_update_time
+  </sql>
+  <select id="getCustomByPhone" resultMap="customMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column"/>
+    from tb_custom
+    where phone_number=#{phoneNumber}
+  </select>
+
+  <select id="getCustomByOpenId" resultMap="customMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column"/>
+    from tb_custom
+    where open_id=#{openId}
+  </select>
+
+  <select id="getCustomByCustomId" resultMap="customMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column"/>
+    from tb_custom
+    where custom_id=#{customId}
+  </select>
+
+  <select id="checkLoginKey" resultMap="customMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column"/>
+    from tb_custom
+    where phone_number=#{phoneNumber}
+    and login_pwd=#{loginPwd}
+  </select>
+
+  <insert id="insertCustom" parameterType="com.wechat.entity.Custom">
+    insert into tb_custom
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customId != null and customId!=''">
+        custom_id,
+      </if>
+      <if test="phoneNumber != null and phoneNumber!=''">
+        phone_number,
+      </if>
+      <if test="userName != null and userName!=''">
+        user_name,
+      </if>
+      <if test="loginPwd != null and loginPwd!=''">
+        login_pwd,
+      </if>
+      <if test="isCertified != null">
+        is_certified,
+      </if>
+      <if test="openId!=null and openId!=''">
+        open_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customId != null and customId!=''">
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null and phoneNumber!=''">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null and userName!=''">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null and loginPwd!=''">
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="isCertified != null">
+        #{isCertified},
+      </if>
+      <if test="openId!=null and openId!=''">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateCustom" parameterType="com.wechat.entity.Custom">
+    update tb_custom
+    <set>
+      <if test="userName != null and userName!=''">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null and loginPwd!=''">
+        login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber!=null and phoneNumber!=''">
+        phone_number=#{phoneNumber},
+      </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
+      <if test="isCertified!= null">
+        is_certified = #{isCertified},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime},
+      </if>
+      <if test="openId != null and openId!=''">
+        open_id = #{openId},
+      </if>
+    </set>
+    <where>
+      <if test="customId != null">
+        and custom_id = #{customId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </update>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT" ignoreExceptions="false">
+      <PatternLayout
+              pattern="%d{HH:mm:ss.SSS} [%t] %M %-5level %logger{36} - %msg%n "/>
+    </Console>
+
+    <RollingFile name="RollingFileDebug" fileName="E:/log/wechatweb-debug.log"
+                 filePattern="E:/log/${date:yyyy-MM}/wechatweb-debug-%d{yyyy-MM-dd}-%i.log">
+      <Filters>
+        <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+        <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="50">
+        <Delete basePath="E:/log" maxDepth="2">
+          <IfFileName glob="*/wechatweb-debug-*.log">
+            <IfLastModified age="7d">
+              <IfAny>
+                <IfAccumulatedFileSize exceeds="1 GB" />
+                <IfAccumulatedFileCount exceeds="50" />
+              </IfAny>
+            </IfLastModified>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="RollingFileInfo" fileName="E:/log/wechatweb-info.log"
+                 filePattern="E:/log/${date:yyyy-MM}/wechatweb-info-%d{MM-dd-yyyy}-%i.log"
+                 ignoreExceptions="false">
+      <Filters>
+        <ThresholdFilter level="INFO"/>
+        <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <RollingFile name="RollingFileWarn" fileName="E:/log/wechatweb-warn.log"
+                 filePattern="E:/log/${date:yyyy-MM}/wechatweb-warn-%d{yyyy-MM-dd}-%i.log">
+      <Filters>
+        <ThresholdFilter level="WARN"/>
+        <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+      </Filters>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <RollingFile name="RollingFileError" fileName="E:/log/wechatweb-error.log"
+                 filePattern="E:/log/${date:yyyy-MM}/wechatweb-error-%d{yyyy-MM-dd}-%i.log">
+      <ThresholdFilter level="ERROR"/>
+      <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%t] [%p] - %l - %m%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+  </appenders>
+  <Loggers>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="com.wechat" level="DEBUG">
+      <appender-ref ref="RollingFileDebug"/>
+    </logger>
+    <logger name="org.hibernate"  level="INFO"/>
+
+    <root level="debug">
+      <appender-ref ref="Console"/>
+      <appender-ref ref="RollingFileInfo"/>
+      <appender-ref ref="RollingFileWarn"/>
+      <appender-ref ref="RollingFileError"/>
+    </root>
+  </Loggers>
+</Configuration>
