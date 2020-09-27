@@ -64,7 +64,7 @@ public class WechatCustom extends Custom {
 
   @Override
   public String toString() {
-    return "WechatCustom{" +
+    return "WechatCustom {" +
       "nickName=" + nickName +
       ", country='" + country + '\'' +
       ", city='" + city + '\'' +
